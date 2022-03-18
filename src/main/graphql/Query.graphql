@@ -1,0 +1,55 @@
+query ScenarioContextGetScenario($identifier: String!) {
+    scenario(publicId: $identifier) {
+        id,
+        memory,
+        prompt,
+        publicId,
+        title,
+        options {
+            id
+            publicId
+            title
+        }
+    }
+}
+
+mutation ActionInput($input: ActionInput!) {
+    addAction(input: $input) {
+        message,
+        hasBannedWord
+    }
+}
+
+query AdventureContextGetAdventure($publicId: String!) {
+    adventure(publicId: $publicId) {
+        id
+        title
+        publicId
+        description
+        nsfw
+        published
+        actions {
+            id, text
+        }
+    }
+}
+
+mutation ScenarioContextAddAdventure($scenarioId: String!, $prompt: String!, $memory: String) {
+    addAdventure(scenarioId: $scenarioId, prompt: $prompt, memory: $memory) {
+        id
+        title
+        publicId
+        description
+        nsfw
+        published
+        __typename
+    }
+}
+
+query SidebarMenuGetUser {
+    user {
+        id
+        username
+        __typename
+    }
+}

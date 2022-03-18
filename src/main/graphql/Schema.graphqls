@@ -1,0 +1,83 @@
+type Query {
+    scenario(publicId: String!) : AIDungeonScenario
+    adventure(publicId: String) : AIDungeonAdventure
+    user : AIDungeonUser
+    options: AIDungeonScenarioOption
+}
+
+type Mutation {
+    addAdventure(scenarioId: String, prompt: String, memory: String) : AIDungeonAdventure
+    addAction(input: ActionInput!) : AIDungeonMessage
+}
+
+input ActionInput {
+    characterName: String,
+    publicId: String!,
+    text: String!,
+    type: ActionInputType!
+}
+
+enum ActionInputType {
+    do,
+    say,
+    story,
+    continue,
+    undo,
+    redo,
+    alter,
+    remember,
+    retry
+}
+
+type AIDungeonMessage {
+    message: String,
+    hasBannedWord: Boolean
+}
+
+type AIDungeonScenario {
+    id: Int!
+    memory: String,
+    prompt: String,
+    title: String,
+    publicId: String,
+    options : [AIDungeonScenarioOption]
+}
+
+type AIDungeonScenarioOption {
+    id: Int!
+    publicId: String,
+    title: String
+}
+
+type AIDungeonAdventure {
+    id: Int!
+    publicId: String
+    title: String,
+    description: String,
+    nsfw: Boolean,
+    published: Boolean,
+    actions: [AIDungeonAction]
+}
+
+type AIDungeonAction {
+    id: String!,
+    text: String!
+}
+
+type AIDungeonAccount {
+    id: Int!,
+    accessToken: String!
+}
+
+type AIDungeonUser {
+    id: Int!,
+    username: String,
+    gameSettings : AIDungeonGameSettings!
+}
+
+type AIDungeonGameSettings {
+    id: Int!,
+    nsfwGeneration: Boolean!,
+    unrestrictedInput: Boolean!,
+    modelType : String
+}
