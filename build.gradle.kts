@@ -14,7 +14,7 @@ repositories {
 dependencies {
     implementation(kotlin("stdlib"))
 
-    implementation("com.apollographql.apollo3:apollo-runtime:3.1.0")
+    api("com.apollographql.apollo3:apollo-runtime:3.1.0")
 }
 
 apollo {
