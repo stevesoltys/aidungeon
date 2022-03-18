@@ -5,7 +5,7 @@ plugins {
     java
 }
 
-group = "org.stevesoltys.aidungeon"
+group = "com.stevesoltys.aidungeon"
 version = "0.1.0"
 
 repositories {
