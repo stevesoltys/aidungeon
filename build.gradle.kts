@@ -2,6 +2,7 @@ plugins {
     kotlin("jvm") version "1.5.10"
     id("com.apollographql.apollo3").version("3.1.0")
     `maven-publish`
+    java
 }
 
 group = "org.stevesoltys.aidungeon"
