@@ -2,8 +2,8 @@ package com.stevesoltys.aidungeon
 
 import com.apollographql.apollo3.ApolloClient
 import com.apollographql.apollo3.network.http.LoggingInterceptor
+import com.stevesoltys.aidungeon.authentication.FirebaseAuthClient
 import com.stevesoltys.aidungeon.authentication.LatitudeAuthClient
-import com.stevesoltys.aidungeon.authentication.dto.LatitudeUser
 import com.stevesoltys.aidungeon.configuration.AIDungeonConfiguration
 import com.stevesoltys.aidungeon.type.ActionInput
 import com.stevesoltys.aidungeon.type.GameSettingsInput
@@ -15,8 +15,6 @@ class AIDungeon(configuration: AIDungeonConfiguration = AIDungeonConfiguration()
         private const val ALL_SCENARIOS_IDENTIFIER = "edd5fdc0-9c81-11ea-a76c-177e6c0711b5"
     }
 
-    private val user: LatitudeUser? = null
-
     private val token: String
 
     private val apolloClient: ApolloClient
@@ -24,18 +22,21 @@ class AIDungeon(configuration: AIDungeonConfiguration = AIDungeonConfiguration()
     init {
         // TODO: Fetch new access token using refresh token on expiry
         token = runBlocking {
-            if (configuration.token.isNullOrEmpty()) {
+            if (configuration.aiDungeonCredentials == null) {
                 val user = LatitudeAuthClient().authenticateAnonymously()
-                user.accessToken
+                "session ${user.accessToken}"
             } else {
-                configuration.token
+                val user = FirebaseAuthClient(
+                    firebaseApiKey = configuration.firebaseApiKey
+                ).authenticate(configuration.aiDungeonCredentials)
+                "firebase ${user.idToken}"
             }
         }
 
         apolloClient = ApolloClient.Builder()
             .serverUrl(configuration.endpoint)
             .addHttpHeader("Content-Type", "application/json")
-            .addHttpHeader("Authorization", "session $token")
+            .addHttpHeader("Authorization", token)
             .addHttpInterceptor(LoggingInterceptor())
             .build()
     }
