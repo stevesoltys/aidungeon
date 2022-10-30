@@ -13,6 +13,7 @@ type Mutation {
     addDeviceToken(token: String!, platform: String!) : Void
     sendUserEvent(input: EventInput!) : Void
     saveGameSettings(input: GameSettingsInput!) : AIDungeonUser
+    increaseActionsBalance : AIDungeonActionsBalanceResponse
 }
 
 input ActionInput {
@@ -114,4 +115,8 @@ type AIDungeonGameSettings {
     nsfwGeneration: Boolean!,
     unrestrictedInput: Boolean!,
     modelType : String
+}
+
+type AIDungeonActionsBalanceResponse {
+    success: Boolean!
 }

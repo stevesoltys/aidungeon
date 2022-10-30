@@ -13,6 +13,13 @@ query ScenarioContextGetScenario($identifier: String!) {
     }
 }
 
+mutation IncreaseActionsBalanceAdContext {
+    increaseActionsBalance {
+        success
+        __typename
+    }
+}
+
 mutation EventHelperSendEvent($input: EventInput!) {
     sendUserEvent(input: $input)
 }

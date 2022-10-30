@@ -104,6 +104,12 @@ class AIDungeon(configuration: AIDungeonConfiguration = AIDungeonConfiguration()
         ).execute().data!!
     }
 
+    suspend fun increaseActionsBalance(): IncreaseActionsBalanceAdContextMutation.Data {
+        return apolloClient.mutation(
+            IncreaseActionsBalanceAdContextMutation()
+        ).execute().data!!
+    }
+
     suspend fun sendAction(actionInput: ActionInput): ActionContextAddActionMutation.Data {
         return apolloClient.mutation(
             ActionContextAddActionMutation(input = actionInput)
