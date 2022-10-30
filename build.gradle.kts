@@ -1,6 +1,6 @@
 plugins {
     kotlin("jvm") version "1.5.10"
-    id("com.apollographql.apollo3").version("3.1.0")
+    id("com.apollographql.apollo3").version("3.3.1")
     `maven-publish`
 }
 
@@ -12,9 +12,20 @@ repositories {
 }
 
 dependencies {
+
     implementation(kotlin("stdlib"))
 
-    api("com.apollographql.apollo3:apollo-runtime:3.1.0")
+    val retrofitVersion = "2.9.0"
+    implementation("com.squareup.retrofit2:converter-gson:$retrofitVersion")
+    implementation("com.squareup.retrofit2:retrofit:$retrofitVersion")
+
+    api("com.apollographql.apollo3:apollo-runtime:3.3.1")
+
+    testImplementation(kotlin("test"))
+}
+
+tasks.test {
+    useJUnitPlatform()
 }
 
 apollo {

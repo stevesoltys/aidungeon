@@ -13,10 +13,20 @@ query ScenarioContextGetScenario($identifier: String!) {
     }
 }
 
-mutation ActionInput($input: ActionInput!) {
+mutation EventHelperSendEvent($input: EventInput!) {
+    sendUserEvent(input: $input)
+}
+
+mutation EventHookSendUserEvent($input: EventInput!) {
+    sendUserEvent(input: $input)
+}
+
+mutation ActionContextAddAction($input: ActionInput!) {
     addAction(input: $input) {
         message,
-        hasBannedWord
+        time,
+        hasBannedWord,
+        returnedInput
     }
 }
 
@@ -28,14 +38,24 @@ query AdventureContextGetAdventure($publicId: String!) {
         description
         nsfw
         published
-        actions {
-            id, text
+    }
+}
+query ActionSubscriptionGetContent($publicId: String!) {
+    adventure(publicId: $publicId) {
+        id
+        actionWindow {
+            id
+            text
         }
     }
 }
 
-mutation ScenarioContextAddAdventure($scenarioId: String!, $prompt: String!, $memory: String) {
-    addAdventure(scenarioId: $scenarioId, prompt: $prompt, memory: $memory) {
+mutation NotificationsWebAddDeviceToken($token: String!, $platform: String!) {
+    addDeviceToken(token: $token, platform: $platform)
+}
+
+mutation ScenarioStartScreenAddAdventure($scenarioId: String!, $prompt: String!, $memory: String!, $authorsNote: String!) {
+    addAdventure(scenarioId: $scenarioId, prompt: $prompt, memory: $memory, authorsNote: $authorsNote) {
         id
         title
         publicId
@@ -50,6 +70,21 @@ query SidebarMenuGetUser {
     user {
         id
         username
+        __typename
+    }
+}
+
+query UserContextGetUser {
+    user {
+        id
+        username
+        gameSettings {
+            id
+            modelType
+            nsfwGeneration
+            unrestrictedInput
+            __typename
+        }
         __typename
     }
 }
