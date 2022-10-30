@@ -1,13 +1,12 @@
 package com.stevesoltys.aidungeon
 
 import com.apollographql.apollo3.ApolloClient
-import com.apollographql.apollo3.api.Optional
 import com.apollographql.apollo3.network.http.LoggingInterceptor
 import com.stevesoltys.aidungeon.authentication.LatitudeAuthClient
 import com.stevesoltys.aidungeon.authentication.dto.LatitudeUser
 import com.stevesoltys.aidungeon.configuration.AIDungeonConfiguration
 import com.stevesoltys.aidungeon.type.ActionInput
-import com.stevesoltys.aidungeon.type.EventInput
+import com.stevesoltys.aidungeon.type.GameSettingsInput
 import kotlinx.coroutines.runBlocking
 
 class AIDungeon(configuration: AIDungeonConfiguration = AIDungeonConfiguration()) {
@@ -96,11 +95,11 @@ class AIDungeon(configuration: AIDungeonConfiguration = AIDungeonConfiguration()
         ).execute().data!!
     }
 
-    suspend fun updateSettings(
-        aiDungeonUpdateSettingsEvent: EventInput
-    ): EventHookSendUserEventMutation.Data {
+    suspend fun updateGameSettings(
+        gameSettingsInput: GameSettingsInput
+    ): SettingsScreenSaveSettingsMobileMutation.Data {
         return apolloClient.mutation(
-            EventHookSendUserEventMutation(input = aiDungeonUpdateSettingsEvent)
+            SettingsScreenSaveSettingsMobileMutation(input = gameSettingsInput)
         ).execute().data!!
     }
 

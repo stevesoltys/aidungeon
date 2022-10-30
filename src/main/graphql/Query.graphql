@@ -30,6 +30,21 @@ mutation ActionContextAddAction($input: ActionInput!) {
     }
 }
 
+mutation SettingsScreenSaveSettingsMobile($input: GameSettingsInput!) {
+    saveGameSettings(input: $input) {
+        id
+        username
+        gameSettings {
+            id
+            modelType
+            nsfwGeneration
+            unrestrictedInput
+            __typename
+        }
+        __typename
+    }
+}
+
 query AdventureContextGetAdventure($publicId: String!) {
     adventure(publicId: $publicId) {
         id

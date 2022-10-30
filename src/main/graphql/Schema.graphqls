@@ -10,8 +10,9 @@ scalar Void
 type Mutation {
     addAdventure(scenarioId: String!, prompt: String!, memory: String!, authorsNote: String!) : AIDungeonAdventure
     addAction(input: ActionInput!) : AIDungeonMessage
-    sendUserEvent(input: EventInput!) : Void
     addDeviceToken(token: String!, platform: String!) : Void
+    sendUserEvent(input: EventInput!) : Void
+    saveGameSettings(input: GameSettingsInput!) : AIDungeonUser
 }
 
 input ActionInput {
@@ -20,6 +21,13 @@ input ActionInput {
     text: String!,
     ttaiSupportedVersion: Int!,
     type: ActionInputType!
+}
+
+input GameSettingsInput {
+    id: String!,
+    nsfwGeneration: Boolean!,
+    unrestrictedInput: Boolean!,
+    modelType : String
 }
 
 input EventInput {

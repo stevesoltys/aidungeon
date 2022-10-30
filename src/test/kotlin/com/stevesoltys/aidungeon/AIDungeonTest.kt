@@ -2,6 +2,7 @@ package com.stevesoltys.aidungeon
 
 import com.stevesoltys.aidungeon.type.ActionInput
 import com.stevesoltys.aidungeon.type.ActionInputType
+import com.stevesoltys.aidungeon.type.GameSettingsInput
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Test
 
@@ -14,7 +15,15 @@ class AIDungeonTest {
         val customScenario = scenarios.scenario!!.options!!.first { it!!.title == "custom" }!!
 
         aiDungeon.addDeviceToken()
-        aiDungeon.getUser()
+        val user = aiDungeon.getUser()
+
+        aiDungeon.updateGameSettings(
+            GameSettingsInput(
+                id = user.user!!.gameSettings.id.toString(),
+                nsfwGeneration = true,
+                unrestrictedInput = true
+            )
+        )
 
         val addAdventureResult = aiDungeon.createAdventure(
             scenarioId = customScenario.id.toString(),
@@ -26,7 +35,7 @@ class AIDungeonTest {
         aiDungeon.sendAction(
             ActionInput(
                 publicId = publicId,
-                text = "You are walking down the street when you see a man.",
+                text = "You are walking down the street when you see a man. He says 'Fuck off!'", // need to test profanity filter :)
                 ttaiSupportedVersion = 3,
                 type = ActionInputType.story
             )
