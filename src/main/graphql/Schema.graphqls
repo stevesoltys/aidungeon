@@ -5,16 +5,49 @@ type Query {
     options: AIDungeonScenarioOption
 }
 
+scalar Void
+
 type Mutation {
-    addAdventure(scenarioId: String, prompt: String, memory: String) : AIDungeonAdventure
+    addAdventure(scenarioId: String!, prompt: String!, memory: String!, authorsNote: String!) : AIDungeonAdventure
     addAction(input: ActionInput!) : AIDungeonMessage
+    addDeviceToken(token: String!, platform: String!) : Void
+    sendUserEvent(input: EventInput!) : Void
+    saveGameSettings(input: GameSettingsInput!) : AIDungeonUser
+    increaseActionsBalance : AIDungeonActionsBalanceResponse
 }
 
 input ActionInput {
     characterName: String,
     publicId: String!,
     text: String!,
+    ttaiSupportedVersion: Int!,
     type: ActionInputType!
+}
+
+input GameSettingsInput {
+    id: String!,
+    nsfwGeneration: Boolean!,
+    unrestrictedInput: Boolean!,
+    modelType : String
+}
+
+input EventInput {
+    eventName: String!
+    variation: String!
+    clientInfo: AIDungeonClientInfo!
+}
+
+input AIDungeonClientInfo {
+    os: String!
+    model: String!
+    version: String!
+    buildNumber: String!
+    appVersion: String!
+    applicationName: String!
+}
+
+enum EventPlatformType {
+    web
 }
 
 enum ActionInputType {
@@ -31,7 +64,9 @@ enum ActionInputType {
 
 type AIDungeonMessage {
     message: String,
-    hasBannedWord: Boolean
+    hasBannedWord: Boolean,
+    time: String,
+    returnedInput: String
 }
 
 type AIDungeonScenario {
@@ -56,7 +91,7 @@ type AIDungeonAdventure {
     description: String,
     nsfw: Boolean,
     published: Boolean,
-    actions: [AIDungeonAction]
+    actionWindow: [AIDungeonAction]
 }
 
 type AIDungeonAction {
@@ -80,4 +115,8 @@ type AIDungeonGameSettings {
     nsfwGeneration: Boolean!,
     unrestrictedInput: Boolean!,
     modelType : String
+}
+
+type AIDungeonActionsBalanceResponse {
+    success: Boolean!
 }
